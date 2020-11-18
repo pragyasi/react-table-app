@@ -1,25 +1,50 @@
-import logo from './logo.svg';
 import './App.css';
+import {messages} from './data.json';
+import ReactTable from 'react-table-6';
+import 'react-table-6/react-table.css';
+import {removeDuplicates} from  './removeDuplicates';
+import {useState , useEffect} from 'react';
+import {newUserData} from './updateData'
+
 
 function App() {
+  const userData = removeDuplicates(messages);
+  let [updatedData , updateData] = useState(userData) 
+  const columns = [
+    {
+      Header : 'User Id',
+      accessor : "senderUuid",
+      style : {
+        textAlign : 'center' 
+      }
+  },
+  {
+      Header : 'Sent At',
+      accessor : "timeStamp",
+      style : {
+        textAlign : 'center' 
+    }
+  },
+  {
+      Header : 'Delete User',
+      Cell : (props)=>{
+        return <button 
+        onClick = {()=>{
+        updatedData = newUserData(updatedData , props)
+        updateData(updatedData);
+          }
+        }>
+        Remove User</button>
+      } 
+  }
+  ]
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+         <ReactTable 
+         columns={columns}
+         data = {updatedData}
+         defaultPageSize = {5}
+         ></ReactTable>
+  )
 }
 
 export default App;
