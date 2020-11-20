@@ -1,7 +1,17 @@
-function newUserData(updatedData , props){
- const newData = updatedData.filter((curr)=>{
-    return JSON.stringify(curr) !== JSON.stringify(props.original)
+
+export function removeUser(updatedData,data , userData){
+  userData.forEach((curr , index)=>{
+    if (JSON.stringify(data)=== JSON.stringify(curr)){
+      userData.splice(index , 1)
+    }
   })
-return newData;
+  return updatedData.filter((curr)=>{
+    return  JSON.stringify(data) !== JSON.stringify(curr)
+  })
 }
-export {newUserData}
+export function sortUser(users){
+  return users.slice().sort((a , b)=>{
+    return a.senderUuid - b.senderUuid;
+  })
+
+}

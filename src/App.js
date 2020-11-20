@@ -1,50 +1,33 @@
 import './App.css';
 import {messages} from './data.json';
-import ReactTable from 'react-table-6';
-import 'react-table-6/react-table.css';
-import {removeDuplicates} from  './removeDuplicates';
+import {removeDuplicates , currentPage } from  './removeDuplicates';
 import {useState , useEffect} from 'react';
-import {newUserData} from './updateData'
-
+import {sortUser} from './updateData';
+import {getHeader , getTableBody} from './tableRender';
+const headerNames = ['Sender' , 'Sent At' , 'Action'];
+ 
+const userData = removeDuplicates(messages);
+const perPageUserData = currentPage(userData,'first');
 
 function App() {
-  const userData = removeDuplicates(messages);
-  let [updatedData , updateData] = useState(userData) 
-  const columns = [
-    {
-      Header : 'User Id',
-      accessor : "senderUuid",
-      style : {
-        textAlign : 'center' 
-      }
-  },
-  {
-      Header : 'Sent At',
-      accessor : "timeStamp",
-      style : {
-        textAlign : 'center' 
-    }
-  },
-  {
-      Header : 'Delete User',
-      Cell : (props)=>{
-        return <button 
-        onClick = {()=>{
-        updatedData = newUserData(updatedData , props)
-        updateData(updatedData);
-          }
-        }>
-        Remove User</button>
-      } 
-  }
-  ]
+ let [userStore , userUpdateStore] = useState(perPageUserData());
   return (
-         <ReactTable 
-         columns={columns}
-         data = {updatedData}
-         defaultPageSize = {5}
-         ></ReactTable>
+    <div>
+      <table className ='userTable'>
+        <thead id='header'>{getHeader(userStore , userUpdateStore)}</thead>
+        <tbody>{getTableBody(userStore  , userUpdateStore , userData)}</tbody>
+        </table>
+      <footer className='paging'>
+        <button onClick ={()=>{
+          const prev = perPageUserData( 'prev')
+          userUpdateStore(prev)}}>Previous</button>
+        <button onClick ={()=>{
+          const next = perPageUserData('next')
+          userUpdateStore(next)
+          }}>
+          Next</button>
+        </footer>
+    </div>
   )
 }
-
 export default App;

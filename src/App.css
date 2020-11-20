@@ -1,3 +1,40 @@
-.tableStyle{
-  background-color: red;
+.userTable{
+  border: 1px  solid darkgray;
+  border-collapse: collapse;
+  width: 100%;
+  color : black;
+  text-align : center;
+}
+  tr{
+  padding-top: 12px;
+  padding-bottom: 12px;
+  height : 40px;
+  text-align: center;
+  border : 1px solid gainsboro;
+
+} 
+#header{
+  background-color : cornflowerblue;
+  height : 50px;
+  color : white ;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 1.2em;
+  font-style: bold;
+}
+.paging{
+  display : flex;
+  flex-direction : row ;
+  justify-content: center;
+  align-items: center;
+  border : 1px solid darkgray;
+}
+.paging > * {
+  width : 70px;
+  margin : 10px;
+}
+button{
+  background :  cornflowerblue linear-gradient(cornflowerblue,cornflowerblue);
+  border : none ;
+  border-radius : 3px;
+  color : whitesmoke;
 }

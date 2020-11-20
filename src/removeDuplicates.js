@@ -30,3 +30,22 @@ export const removeDuplicates = (messages) => {
    })
   return result;
 };
+export function currentPage(userData ){
+ let offsetFirst = 0 ;
+ let offsetLast = userData.length <5 ? userData.length : 5 ;
+   return function(type){
+     if(type ==='next' && userData.length!==0){
+     offsetFirst+=5 ;
+     offsetLast =offsetFirst + 5 ;   
+     return userData.slice(offsetFirst , offsetLast)
+   }else if(offsetFirst && type === 'prev' ){
+     userData.length+=5;
+     offsetFirst-=5 ;
+     offsetLast = offsetFirst + 5 ;
+     return  userData.slice(offsetFirst , offsetLast);
+   }else{
+     const curr =  userData.slice(offsetFirst , offsetLast);
+     return curr
+   }
+   }
+}
